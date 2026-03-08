@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Volunteer Management System</title>
+
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: #f2f2f2;
+    padding: 30px;
+  }
+  .box {
+    background: #fff;
+    padding: 20px;
+    max-width: 400px;
+    margin: auto;
+    display: none;
+  }
+  input, select, textarea, button {
+    width: 100%;
+    margin: 8px 0;
+    padding: 8px;
+  }
+  button {
+    background: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+  h2 {
+    text-align: center;
+  }
+  ul {
+    padding-left: 20px;
+  }
+</style>
+</head>
+
+<body style="background-color:powderblue;"></body>
+   
+<div class="box" id="loginBox">
+  <h2>Login</h2>
+  <input id="loginEmail" type="email" placeholder="Email" required>
+  <input id="loginPassword" type="password" placeholder="Password" required>
+  <button onclick="login()">Login</button>
+  <p>New user? <a href="#" onclick="showRegister()">Register</a></p>
+</div>
+
+<div class="box" id="registerBox">
+  <h2>Register</h2>
+  <input id="name" placeholder="Name" required>
+  <input id="email" type="email" placeholder="Email" required>
+  <input id="password" type="password" placeholder="Password (min 6)" required>
+
+  <select id="role">
+    <option value="volunteer">Volunteer</option>
+    <option value="organizer">Organizer</option>
+  </select>
+
+  <button onclick="register()">Register</button>
+  <p><a href="#" onclick="showLogin()">Back to Login</a></p>
+</div>
+
+<div class="box" id="organizerBox">
+  <h2>Organizer Dashboard</h2>
+
+  <input id="eventTitle" placeholder="Event Title">
+  <input id="eventDate" type="date">
+  <textarea id="eventDesc" placeholder="Event Description"></textarea>
+  <button onclick="createEvent()">Create Event</button>
+
+  <h3>Events</h3>
+  <ul id="eventList"></ul>
+
+  <button onclick="logout()">Logout</button>
+</div>
+
+<div class="box" id="volunteerBox">
+  <h2>Volunteer Dashboard</h2>
+  <h3>Event History</h3>
+  <ul id="historyList"></ul>
+  <button onclick="logout()">Logout</button>
+</div>
+
+<script>
+function hideAll() {
+  document.querySelectorAll('.box').forEach(b => b.style.display = "none");
+}
+function showLogin() {
+  hideAll();
+  document.getElementById("loginBox").style.display = "block";
+}
+function showRegister() {
+  hideAll();
+  document.getElementById("registerBox").style.display = "block";
+}
+
+function register() {
+  if (password.value.length < 6) {
+    alert("Password must be at least 6 characters");
+    return;
+  }
+
+  const user = {
+    name: name.value,
+    email: email.value,
+    password: password.value,
+    role: role.value
+  };
+
+  localStorage.setItem(email.value, JSON.stringify(user));
+  alert("Registration successful!");
+  showLogin();
+}
+
+function login() {
+  const user = JSON.parse(localStorage.getItem(loginEmail.value));
+
+  if (!user || user.password !== loginPassword.value) {
+    alert("Invalid login");
+    return;
+  }
+
+  localStorage.setItem("loggedUser", JSON.stringify(user));
+
+  if (user.role === "organizer") showOrganizer();
+  else showVolunteer();
+}
+
+function logout() {
+  localStorage.removeItem("loggedUser");
+  showLogin();
+}
+
+function showOrganizer() {
+  hideAll();
+  document.getElementById("organizerBox").style.display = "block";
+  loadEvents();
+}
+
+function createEvent() {
+  const events = JSON.parse(localStorage.getItem("events")) || [];
+  events.push({
+    title: eventTitle.value,
+    date: eventDate.value,
+    desc: eventDesc.value
+  });
+  localStorage.setItem("events", JSON.stringify(events));
+  loadEvents();
+}
+
+function loadEvents() {
+  const list = document.getElementById("eventList");
+  list.innerHTML = "";
+  const events = JSON.parse(localStorage.getItem("events")) || [];
+  events.forEach(e => {
+    list.innerHTML += `<li>${e.title} - ${e.date}</li>`;
+  });
+}
+
+function showVolunteer() {
+  hideAll();
+  document.getElementById("volunteerBox").style.display = "block";
+  loadHistory();
+}
+
+function loadHistory() {
+  const list = document.getElementById("historyList");
+  list.innerHTML = "";
+  const events = JSON.parse(localStorage.getItem("events")) || [];
+  events.forEach(e => {
+    list.innerHTML += `<li>${e.title} - ${e.date}</li>`;
+  });
+}
+
+showLogin();
+</script>
+
+</body>
+</html>
