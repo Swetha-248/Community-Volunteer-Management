@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>VolunteerHub — Connect. Serve. Impact.</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,700;1,9..144,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="styles.css"/>
+</head>
+<body>
+  <div id="app">
+
+    <!-- NAVIGATION -->
+    <nav class="navbar" id="navbar">
+      <div class="nav-brand">
+        <span class="brand-icon">🌿</span>
+        <span class="brand-name">VolunteerHub</span>
+      </div>
+      <div class="nav-links" id="navLinks">
+        <a href="#" onclick="showPage('home')" class="nav-link active">Home</a>
+        <a href="#" onclick="showPage('events')" class="nav-link">Events</a>
+        <a href="#" onclick="showPage('about')" class="nav-link">About</a>
+      </div>
+      <div class="nav-actions">
+        <button class="btn btn-ghost" onclick="showModal('loginModal')">Sign In</button>
+        <button class="btn btn-primary" onclick="showModal('registerModal')">Join Now</button>
+      </div>
+      <button class="hamburger" onclick="toggleMobileNav()" id="hamburger">☰</button>
+    </nav>
+
+    <!-- PAGES -->
+    <main id="mainContent">
+
+      <!-- HOME PAGE -->
+      <div id="page-home" class="page active">
+        <section class="hero">
+          <div class="hero-bg">
+            <div class="hero-orb orb1"></div>
+            <div class="hero-orb orb2"></div>
+            <div class="hero-orb orb3"></div>
+          </div>
+          <div class="hero-content">
+            <div class="hero-badge">🌟 Community-Driven Platform</div>
+            <h1 class="hero-title">
+              Make Every<br/>
+              <em>Moment</em> Count
+            </h1>
+            <p class="hero-subtitle">Connect passionate volunteers with organizations that need them most. Apply, get selected, and create real change in your community.</p>
+            <div class="hero-cta">
+              <button class="btn btn-hero" onclick="showModal('registerModal')">Start Volunteering</button>
+              <button class="btn btn-hero-ghost" onclick="showModal('orgRegisterModal')">Post an Event</button>
+            </div>
+            <div class="hero-stats">
+              <div class="stat"><span class="stat-num">2,400+</span><span class="stat-label">Volunteers</span></div>
+              <div class="stat-divider"></div>
+              <div class="stat"><span class="stat-num">340+</span><span class="stat-label">Events</span></div>
+              <div class="stat-divider"></div>
+              <div class="stat"><span class="stat-num">89</span><span class="stat-label">Organizations</span></div>
+            </div>
+          </div>
+          <div class="hero-visual">
+            <div class="card-float card-f1">
+              <div class="cf-avatar">🏥</div>
+              <div class="cf-info"><strong>Medical Camp</strong><small>12 slots open</small></div>
+            </div>
+            <div class="card-float card-f2">
+              <div class="cf-avatar">🌳</div>
+              <div class="cf-info"><strong>Tree Plantation</strong><small>8 slots open</small></div>
+            </div>
+            <div class="card-float card-f3">
+              <div class="cf-avatar">📚</div>
+              <div class="cf-info"><strong>Literacy Drive</strong><small>5 slots open</small></div>
+            </div>
+            <div class="hero-circle">
+              <div class="hc-inner">
+                <span class="hc-emoji">🤝</span>
+                <span class="hc-text">Join Us</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- HOW IT WORKS -->
+        <section class="section how-it-works">
+          <div class="section-header">
+            <span class="section-tag">Process</span>
+            <h2 class="section-title">How VolunteerHub Works</h2>
+          </div>
+          <div class="steps-grid">
+            <div class="step-card">
+              <div class="step-num">01</div>
+              <div class="step-icon">👤</div>
+              <h3>Build Your Profile</h3>
+              <p>Showcase your skills, experience, availability, and passion areas. Upload your certificates to stand out.</p>
+            </div>
+            <div class="step-card">
+              <div class="step-num">02</div>
+              <div class="step-icon">🔍</div>
+              <h3>Browse & Apply</h3>
+              <p>Explore curated events matching your interests and skills. Apply with one click and track your status.</p>
+            </div>
+            <div class="step-card">
+              <div class="step-num">03</div>
+              <div class="step-icon">✅</div>
+              <h3>Get Selected</h3>
+              <p>Organizations review profiles and select best-fit volunteers. Get notified instantly when chosen.</p>
+            </div>
+            <div class="step-card">
+              <div class="step-num">04</div>
+              <div class="step-icon">⭐</div>
+              <h3>Earn Recognition</h3>
+              <p>Receive ratings after events, build your reputation, and grow your volunteering portfolio.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- FEATURED EVENTS PREVIEW -->
+        <section class="section featured-events">
+          <div class="section-header">
+            <span class="section-tag">Opportunities</span>
+            <h2 class="section-title">Featured Events</h2>
+            <button class="btn btn-outline" onclick="showPage('events')">View All →</button>
+          </div>
+          <div class="events-preview-grid" id="homeEventsGrid">
+            <!-- Populated by JS -->
+          </div>
+        </section>
+      </div>
+
+      <!-- EVENTS PAGE -->
+      <div id="page-events" class="page">
+        <div class="page-header-bar">
+          <div>
+            <h1 class="page-title">Explore Events</h1>
+            <p class="page-subtitle">Find opportunities that match your passion and skills</p>
+          </div>
+        </div>
+        <div class="events-layout">
+          <aside class="filters-sidebar">
+            <h3 class="filter-title">Filter Events</h3>
+            <div class="filter-group">
+              <label>Category</label>
+              <select class="filter-select" onchange="filterEvents()">
+                <option value="">All Categories</option>
+                <option value="health">Health & Medical</option>
+                <option value="education">Education</option>
+                <option value="environment">Environment</option>
+                <option value="community">Community</option>
+                <option value="disaster">Disaster Relief</option>
+              </select>
+            </div>
+            <div class="filter-group">
+              <label>Skills Required</label>
+              <div class="filter-checks" id="skillFilters">
+                <label class="check-label"><input type="checkbox" value="teaching" onchange="filterEvents()"> Teaching</label>
+                <label class="check-label"><input type="checkbox" value="medical" onchange="filterEvents()"> Medical</label>
+                <label class="check-label"><input type="checkbox" value="driving" onchange="filterEvents()"> Driving</label>
+                <label class="check-label"><input type="checkbox" value="coding" onchange="filterEvents()"> Coding</label>
+                <label class="check-label"><input type="checkbox" value="cooking" onchange="filterEvents()"> Cooking</label>
+              </div>
+            </div>
+            <div class="filter-group">
+              <label>Availability</label>
+              <select class="filter-select" onchange="filterEvents()">
+                <option value="">Any Time</option>
+                <option value="weekday">Weekdays</option>
+                <option value="weekend">Weekends</option>
+                <option value="fulltime">Full-time</option>
+              </select>
+            </div>
+            <button class="btn btn-outline w-full" onclick="resetFilters()">Reset Filters</button>
+          </aside>
+          <div class="events-main">
+            <div class="events-search-bar">
+              <input type="text" id="eventSearch" placeholder="Search events..." oninput="filterEvents()" class="search-input"/>
+              <span class="search-icon">🔍</span>
+            </div>
+            <div class="events-grid" id="eventsGrid">
+              <!-- Populated by JS -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- VOLUNTEER DASHBOARD -->
+      <div id="page-volunteer-dashboard" class="page">
+        <div class="dashboard-layout">
+          <aside class="dashboard-sidebar">
+            <div class="ds-profile">
+              <div class="ds-avatar" id="volAvatar">JS</div>
+              <div class="ds-name" id="volName">John Smith</div>
+              <div class="ds-role">Volunteer</div>
+              <div class="ds-rating">⭐ 4.8 • 12 Events</div>
+            </div>
+            <nav class="ds-nav">
+              <a href="#" class="ds-link active" onclick="showDashTab('overview', this)">📊 Overview</a>
+              <a href="#" class="ds-link" onclick="showDashTab('profile', this)">👤 My Profile</a>
+              <a href="#" class="ds-link" onclick="showDashTab('applications', this)">📋 Applications</a>
+              <a href="#" class="ds-link" onclick="showDashTab('history', this)">📜 History</a>
+              <a href="#" class="ds-link" onclick="showDashTab('documents', this)">📁 Documents</a>
+            </nav>
+            <button class="btn btn-ghost ds-logout" onclick="logout()">← Sign Out</button>
+          </aside>
+          <div class="dashboard-content">
+
+            <!-- OVERVIEW TAB -->
+            <div id="tab-overview" class="dash-tab active">
+              <h2 class="dash-heading">Welcome back, <span id="greetName">John</span>! 👋</h2>
+              <div class="metrics-grid">
+                <div class="metric-card">
+                  <div class="mc-icon">📋</div>
+                  <div class="mc-val" id="metricApplied">3</div>
+                  <div class="mc-label">Applications Sent</div>
+                </div>
+                <div class="metric-card">
+                  <div class="mc-icon">✅</div>
+                  <div class="mc-val" id="metricSelected">2</div>
+                  <div class="mc-label">Times Selected</div>
+                </div>
+                <div class="metric-card">
+                  <div class="mc-icon">🎯</div>
+                  <div class="mc-val" id="metricCompleted">8</div>
+                  <div class="mc-label">Events Completed</div>
+                </div>
+                <div class="metric-card">
+                  <div class="mc-icon">⭐</div>
+                  <div class="mc-val">4.8</div>
+                  <div class="mc-label">Avg. Rating</div>
+                </div>
+              </div>
+              <div class="dash-sections">
+                <div class="dash-section">
+                  <h3>Recent Applications</h3>
+                  <div id="recentApplications" class="app-list"></div>
+                </div>
+                <div class="dash-section">
+                  <h3>Recommended Events</h3>
+                  <div id="recommendedEvents" class="app-list"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- PROFILE TAB -->
+            <div id="tab-profile" class="dash-tab">
+              <h2 class="dash-heading">My Profile</h2>
+              <form class="profile-form" onsubmit="saveProfile(event)">
+                <div class="form-section">
+                  <h3>Personal Information</h3>
+                  <div class="form-row">
+                    <div class="form-group">
+                      <label>First Name</label>
+                      <input type="text" class="form-input" id="pfFirstName" value="John"/>
+                    </div>
+                    <div class="form-group">
+                      <label>Last Name</label>
+                      <input type="text" class="form-input" id="pfLastName" value="Smith"/>
+                    </div>
+                  </div>
+                  <div class="form-row">
+                    <div class="form-group">
+                      <label>Email</label>
+                      <input type="email" class="form-input" id="pfEmail" value="john@example.com"/>
+                    </div>
+                    <div class="form-group">
+                      <label>Phone</label>
+                      <input type="tel" class="form-input" id="pfPhone" value="+91 9876543210"/>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label>Location</label>
+                    <input type="text" class="form-input" id="pfLocation" value="Chennai, Tamil Nadu"/>
+                  </div>
+                  <div class="form-group">
+                    <label>Bio</label>
+                    <textarea class="form-input form-textarea" id="pfBio">Passionate about community service and education. Available on weekends for volunteering activities.</textarea>
+                  </div>
+                </div>
+                <div class="form-section">
+                  <h3>Skills & Experience</h3>
+                  <div class="form-group">
+                    <label>Skills (select all that apply)</label>
+                    <div class="skills-grid" id="skillsGrid">
+                      <label class="skill-chip"><input type="checkbox" value="teaching" checked> 📚 Teaching</label>
+                      <label class="skill-chip"><input type="checkbox" value="medical"> 🏥 Medical</label>
+                      <label class="skill-chip"><input type="checkbox" value="driving"> 🚗 Driving</label>
+                      <label class="skill-chip"><input type="checkbox" value="coding" checked> 💻 Coding</label>
+                      <label class="skill-chip"><input type="checkbox" value="cooking"> 🍳 Cooking</label>
+                      <label class="skill-chip"><input type="checkbox" value="photography"> 📷 Photography</label>
+                      <label class="skill-chip"><input type="checkbox" value="languages"> 🌐 Languages</label>
+                      <label class="skill-chip"><input type="checkbox" value="management" checked> 📊 Management</label>
+                    </div>
+                  </div>
+                  <div class="form-row">
+                    <div class="form-group">
+                      <label>Years of Volunteering Experience</label>
+                      <select class="form-input" id="pfExperience">
+                        <option>Less than 1 year</option>
+                        <option selected>1–3 years</option>
+                        <option>3–5 years</option>
+                        <option>5+ years</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label>Availability</label>
+                      <select class="form-input" id="pfAvailability">
+                        <option>Weekdays Only</option>
+                        <option selected>Weekends Only</option>
+                        <option>Both Weekdays & Weekends</option>
+                        <option>Full-time</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-section">
+                  <h3>Upload Documents</h3>
+                  <div class="upload-zone" onclick="document.getElementById('docUpload').click()">
+                    <input type="file" id="docUpload" hidden multiple accept=".pdf,.jpg,.png" onchange="handleDocUpload(event)"/>
+                    <div class="uz-icon">📎</div>
+                    <p>Click to upload certificates, ID, or other documents</p>
+                    <small>PDF, JPG, PNG up to 5MB each</small>
+                  </div>
+                  <div id="uploadedDocs" class="uploaded-docs"></div>
+                </div>
+                <button type="submit" class="btn btn-primary">Save Profile</button>
+              </form>
+            </div>
+
+            <!-- APPLICATIONS TAB -->
+            <div id="tab-applications" class="dash-tab">
+              <h2 class="dash-heading">My Applications</h2>
+              <div class="app-filters">
+                <button class="pill active" onclick="filterApps('all', this)">All</button>
+                <button class="pill" onclick="filterApps('pending', this)">Pending</button>
+                <button class="pill" onclick="filterApps('selected', this)">Selected</button>
+                <button class="pill" onclick="filterApps('rejected', this)">Rejected</button>
+              </div>
+              <div id="applicationsList" class="applications-full-list"></div>
+            </div>
+
+            <!-- HISTORY TAB -->
+            <div id="tab-history" class="dash-tab">
+              <h2 class="dash-heading">Volunteering History</h2>
+              <div id="historyList" class="history-list"></div>
+            </div>
+
+            <!-- DOCUMENTS TAB -->
+            <div id="tab-documents" class="dash-tab">
+              <h2 class="dash-heading">My Documents</h2>
+              <div class="upload-zone" onclick="document.getElementById('docUpload2').click()">
+                <input type="file" id="docUpload2" hidden multiple onchange="handleDocUpload2(event)"/>
+                <div class="uz-icon">📁</div>
+                <p>Upload new documents</p>
+              </div>
+              <div id="documentsList" class="docs-grid"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ORGANIZATION DASHBOARD -->
+      <div id="page-org-dashboard" class="page">
+        <div class="dashboard-layout">
+          <aside class="dashboard-sidebar org-sidebar">
+            <div class="ds-profile">
+              <div class="ds-avatar org-av">🏢</div>
+              <div class="ds-name" id="orgName">Green Earth Org</div>
+              <div class="ds-role">Organization</div>
+            </div>
+            <nav class="ds-nav">
+              <a href="#" class="ds-link active" onclick="showOrgTab('org-overview', this)">📊 Overview</a>
+              <a href="#" class="ds-link" onclick="showOrgTab('org-events', this)">📅 My Events</a>
+              <a href="#" class="ds-link" onclick="showOrgTab('org-post', this)">➕ Post Event</a>
+              <a href="#" class="ds-link" onclick="showOrgTab('org-applicants', this)">👥 Applicants</a>
+              <a href="#" class="ds-link" onclick="showOrgTab('org-profile', this)">⚙️ Settings</a>
+            </nav>
+            <button class="btn btn-ghost ds-logout" onclick="logout()">← Sign Out</button>
+          </aside>
+          <div class="dashboard-content">
+
+            <!-- ORG OVERVIEW -->
+            <div id="tab-org-overview" class="dash-tab active">
+              <h2 class="dash-heading">Organization Dashboard</h2>
+              <div class="metrics-grid">
+                <div class="metric-card">
+                  <div class="mc-icon">📅</div>
+                  <div class="mc-val">5</div>
+                  <div class="mc-label">Active Events</div>
+                </div>
+                <div class="metric-card">
+                  <div class="mc-icon">👥</div>
+                  <div class="mc-val">48</div>
+                  <div class="mc-label">Total Applicants</div>
+                </div>
+                <div class="metric-card">
+                  <div class="mc-icon">✅</div>
+                  <div class="mc-val">23</div>
+                  <div class="mc-label">Selected Volunteers</div>
+                </div>
+                <div class="metric-card">
+                  <div class="mc-icon">🎯</div>
+                  <div class="mc-val">12</div>
+                  <div class="mc-label">Events Completed</div>
+                </div>
+              </div>
+              <div class="dash-sections">
+                <div class="dash-section">
+                  <h3>Recent Applications to Review</h3>
+                  <div id="orgRecentApps" class="app-list"></div>
+                </div>
+                <div class="dash-section">
+                  <h3>Upcoming Events</h3>
+                  <div id="orgUpcomingEvents" class="app-list"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ORG EVENTS -->
+            <div id="tab-org-events" class="dash-tab">
+              <div class="tab-header-row">
+                <h2 class="dash-heading">My Events</h2>
+                <button class="btn btn-primary" onclick="showOrgTab('org-post', document.querySelector('.ds-link:nth-child(3)'))">+ Post New Event</button>
+              </div>
+              <div id="orgEventsList" class="org-events-list"></div>
+            </div>
+
+            <!-- POST EVENT -->
+            <div id="tab-org-post" class="dash-tab">
+              <h2 class="dash-heading">Post a New Event</h2>
+              <form class="profile-form" onsubmit="postEvent(event)">
+                <div class="form-section">
+                  <h3>Event Details</h3>
+                  <div class="form-group">
+                    <label>Event Title *</label>
+                    <input type="text" class="form-input" id="evTitle" placeholder="e.g. Beach Cleanup Drive 2025" required/>
+                  </div>
+                  <div class="form-group">
+                    <label>Description *</label>
+                    <textarea class="form-input form-textarea" id="evDesc" placeholder="Describe what volunteers will be doing..." required></textarea>
+                  </div>
+                  <div class="form-row">
+                    <div class="form-group">
+                      <label>Category</label>
+                      <select class="form-input" id="evCategory">
+                        <option value="environment">Environment</option>
+                        <option value="health">Health & Medical</option>
+                        <option value="education">Education</option>
+                        <option value="community">Community</option>
+                        <option value="disaster">Disaster Relief</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label>Volunteers Required *</label>
+                      <input type="number" class="form-input" id="evVolunteers" min="1" value="10" required/>
+                    </div>
+                  </div>
+                  <div class="form-row">
+                    <div class="form-group">
+                      <label>Date *</label>
+                      <input type="date" class="form-input" id="evDate" required/>
+                    </div>
+                    <div class="form-group">
+                      <label>Time</label>
+                      <input type="time" class="form-input" id="evTime" value="09:00"/>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label>Location / Venue *</label>
+                    <input type="text" class="form-input" id="evLocation" placeholder="Full address or venue name" required/>
+                  </div>
+                </div>
+                <div class="form-section">
+                  <h3>Skills Required</h3>
+                  <div class="skills-grid">
+                    <label class="skill-chip"><input type="checkbox" value="teaching"> 📚 Teaching</label>
+                    <label class="skill-chip"><input type="checkbox" value="medical"> 🏥 Medical</label>
+                    <label class="skill-chip"><input type="checkbox" value="driving"> 🚗 Driving</label>
+                    <label class="skill-chip"><input type="checkbox" value="coding"> 💻 Coding</label>
+                    <label class="skill-chip"><input type="checkbox" value="cooking"> 🍳 Cooking</label>
+                    <label class="skill-chip"><input type="checkbox" value="management"> 📊 Management</label>
+                  </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Post Event</button>
+              </form>
+            </div>
+
+            <!-- APPLICANTS -->
+            <div id="tab-org-applicants" class="dash-tab">
+              <h2 class="dash-heading">Review Applicants</h2>
+              <div class="event-select-bar">
+                <label>Select Event:</label>
+                <select class="filter-select" id="applicantEventSelect" onchange="loadApplicants()">
+                  <!-- Populated by JS -->
+                </select>
+              </div>
+              <div class="applicants-sort">
+                <span>Sort by:</span>
+                <button class="pill active" onclick="sortApplicants('match', this)">Match Score</button>
+                <button class="pill" onclick="sortApplicants('experience', this)">Experience</button>
+                <button class="pill" onclick="sortApplicants('rating', this)">Rating</button>
+              </div>
+              <div id="applicantsList" class="applicants-list"></div>
+            </div>
+
+            <!-- ORG PROFILE/SETTINGS -->
+            <div id="tab-org-profile" class="dash-tab">
+              <h2 class="dash-heading">Organization Settings</h2>
+              <form class="profile-form" onsubmit="saveOrgProfile(event)">
+                <div class="form-section">
+                  <h3>Organization Details</h3>
+                  <div class="form-group">
+                    <label>Organization Name</label>
+                    <input type="text" class="form-input" value="Green Earth Organization"/>
+                  </div>
+                  <div class="form-group">
+                    <label>Description</label>
+                    <textarea class="form-input form-textarea">We are dedicated to environmental conservation and community awareness.</textarea>
+                  </div>
+                  <div class="form-row">
+                    <div class="form-group">
+                      <label>Contact Email</label>
+                      <input type="email" class="form-input" value="contact@greenearth.org"/>
+                    </div>
+                    <div class="form-group">
+                      <label>Phone</label>
+                      <input type="tel" class="form-input" value="+91 9000000000"/>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label>Location</label>
+                    <input type="text" class="form-input" value="Chennai, Tamil Nadu"/>
+                  </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Save Settings</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </main><!-- end mainContent -->
+  </div><!-- end app -->
+
+  <!-- MODALS -->
+  <!-- Login Modal -->
+  <div class="modal-overlay" id="loginModal" onclick="closeModalOutside(event, 'loginModal')">
+    <div class="modal">
+      <button class="modal-close" onclick="closeModal('loginModal')">✕</button>
+      <div class="modal-header">
+        <h2>Welcome Back</h2>
+        <p>Sign in to your account</p>
+      </div>
+      <div class="role-tabs">
+        <button class="role-tab active" onclick="switchRole('volunteer', this)">Volunteer</button>
+        <button class="role-tab" onclick="switchRole('org', this)">Organization</button>
+      </div>
+      <form onsubmit="handleLogin(event)">
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" class="form-input" id="loginEmail" placeholder="you@example.com" required/>
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" class="form-input" id="loginPassword" placeholder="••••••••" required/>
+        </div>
+        <div class="form-footer-row">
+          <label class="check-label"><input type="checkbox"> Remember me</label>
+          <a href="#" class="link-small">Forgot password?</a>
+        </div>
+        <button type="submit" class="btn btn-primary w-full">Sign In</button>
+        <p class="modal-switch">Don't have an account? <a href="#" onclick="switchModal('loginModal', 'registerModal')">Register</a></p>
+      </form>
+    </div>
+  </div>
+
+  <!-- Volunteer Register Modal -->
+  <div class="modal-overlay" id="registerModal" onclick="closeModalOutside(event, 'registerModal')">
+    <div class="modal modal-wide">
+      <button class="modal-close" onclick="closeModal('registerModal')">✕</button>
+      <div class="modal-header">
+        <h2>Create Volunteer Account</h2>
+        <p>Join our community of changemakers</p>
+      </div>
+      <form onsubmit="handleVolunteerRegister(event)">
+        <div class="form-row">
+          <div class="form-group">
+            <label>First Name *</label>
+            <input type="text" class="form-input" id="regFirstName" required/>
+          </div>
+          <div class="form-group">
+            <label>Last Name *</label>
+            <input type="text" class="form-input" id="regLastName" required/>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Email *</label>
+          <input type="email" class="form-input" id="regEmail" required/>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Password *</label>
+            <input type="password" class="form-input" id="regPassword" required/>
+          </div>
+          <div class="form-group">
+            <label>Phone</label>
+            <input type="tel" class="form-input" id="regPhone"/>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Location</label>
+          <input type="text" class="form-input" id="regLocation" placeholder="City, State"/>
+        </div>
+        <button type="submit" class="btn btn-primary w-full">Create Account</button>
+        <p class="modal-switch">Already have an account? <a href="#" onclick="switchModal('registerModal', 'loginModal')">Sign In</a></p>
+      </form>
+    </div>
+  </div>
+
+  <!-- Org Register Modal -->
+  <div class="modal-overlay" id="orgRegisterModal" onclick="closeModalOutside(event, 'orgRegisterModal')">
+    <div class="modal modal-wide">
+      <button class="modal-close" onclick="closeModal('orgRegisterModal')">✕</button>
+      <div class="modal-header">
+        <h2>Register Your Organization</h2>
+        <p>Start recruiting passionate volunteers</p>
+      </div>
+      <form onsubmit="handleOrgRegister(event)">
+        <div class="form-group">
+          <label>Organization Name *</label>
+          <input type="text" class="form-input" id="orgRegName" required/>
+        </div>
+        <div class="form-group">
+          <label>Email *</label>
+          <input type="email" class="form-input" id="orgRegEmail" required/>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Password *</label>
+            <input type="password" class="form-input" id="orgRegPassword" required/>
+          </div>
+          <div class="form-group">
+            <label>Phone</label>
+            <input type="tel" class="form-input" id="orgRegPhone"/>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Organization Type</label>
+          <select class="form-input" id="orgRegType">
+            <option>NGO / Non-Profit</option>
+            <option>Government</option>
+            <option>Corporate CSR</option>
+            <option>Educational Institution</option>
+            <option>Community Group</option>
+          </select>
+        </div>
+        <button type="submit" class="btn btn-primary w-full">Register Organization</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Event Apply Modal -->
+  <div class="modal-overlay" id="applyModal" onclick="closeModalOutside(event, 'applyModal')">
+    <div class="modal">
+      <button class="modal-close" onclick="closeModal('applyModal')">✕</button>
+      <div class="modal-header">
+        <h2 id="applyEventTitle">Apply for Event</h2>
+        <p>Tell the organizer why you're a great fit</p>
+      </div>
+      <form onsubmit="submitApplication(event)">
+        <div class="form-group">
+          <label>Why do you want to participate?</label>
+          <textarea class="form-input form-textarea" id="applyMessage" placeholder="Share your motivation and how your skills match this event..." rows="4"></textarea>
+        </div>
+        <div class="form-group">
+          <label>Relevant Experience</label>
+          <textarea class="form-input form-textarea" id="applyExperience" placeholder="Describe any relevant past experience..." rows="3"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary w-full">Submit Application</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Volunteer Profile View Modal (for org) -->
+  <div class="modal-overlay" id="volunteerViewModal" onclick="closeModalOutside(event, 'volunteerViewModal')">
+    <div class="modal modal-wide">
+      <button class="modal-close" onclick="closeModal('volunteerViewModal')">✕</button>
+      <div id="volunteerViewContent"></div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="toast"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
